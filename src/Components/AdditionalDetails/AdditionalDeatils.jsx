@@ -19,14 +19,36 @@ const AdditionalDetails = () => {
 
     const handleChange = (e) => {
         console.log(e.target.name, e.target.value)
-        setFormData({ ...formData, [e.target.name]: e.target.value });
+        setFormData({ ...formData, [e.target.name]: e.target.value });  
     };
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async(e) => {
         e.preventDefault();
         // Handle form submission here
         console.log(formData);
         localStorage.setItem("additionalDetails", JSON.stringify(formData));
+
+        e.preventDefault()
+      console.log("nanda anumolu")
+      //console.log(email,password)
+      const fd = new FormData();
+    fd.append("Name", formData.Name);
+    fd.append("Email",formData.Email);
+    fd.append("PCN", formData.PCN);
+    fd.append("ECTC",formData.ECTC);
+    fd.append("YOE", formData.YOE);
+
+    const urls = `http://127.0.0.1:8000/updateAdditionalDetails`;
+    const postData = await fetch(urls, {
+      method: "POST",
+      body: fd,
+    });
+    const res = await postData.text();
+    const data1 = JSON.parse(res);
+    console.log(data1)
+    if(data1.message==="User created successfully"){
+      //window.location.href = '/'
+    
 
         let newJob = {};
         let prevJob = JSON.parse(localStorage.getItem('jobs'));
@@ -46,13 +68,14 @@ const AdditionalDetails = () => {
             toast.error('Already applied');
         }
         setTaskCompleted(true)
+    }
     };
     useEffect(() => {
         if (taskCompleted) {
             // Set timeout to redirect after 5 seconds (5000 milliseconds)
             const timeoutId = setTimeout(() => {
                 // Redirect to the desired URL
-                window.location.href = '/';
+                window.location.href = '/home';
             }, 1000); // 5000 milliseconds = 5 seconds
 
             // Clean up the timeout on component unmount to avoid memory leaks

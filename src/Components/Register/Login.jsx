@@ -4,10 +4,29 @@ import './Login.css'
 
 export default function Login() {
   const [abc,setabc]=useState(false)
-  function handleRegister(){
-    window.location.href = '/home'
-    setabc(true)
-  }
+  const [email,setEmail]=useState()
+  const [password,setPassword]=useState()
+    async function handleRegister(e){
+      e.preventDefault()
+      console.log("nanda anumolu")
+      console.log(email,password)
+      const fd = new FormData();
+    fd.append("email", email);
+    fd.append("password",password);
+    const urls = `http://127.0.0.1:8000/signin`;
+    const postData = await fetch(urls, {
+      method: "POST",
+      body: fd,
+    });
+    const res = await postData.text();
+    const data1 = JSON.parse(res);
+    console.log(data1)
+    if(data1.message==="Signin successful"){
+      window.location.href = '/home'
+    }
+      
+    }
+  
   return (
     <section className="h-screen">
       <div className="h-full">
@@ -93,22 +112,39 @@ export default function Login() {
               </div>
 
               {/* <!-- Email input --> */}
-              <TEInput
+              {/* <TEInput
                 type="email"
                 label="Email address"
                 placeholder="Email"
                 size="lg"
                 className="mb-6"
-              ></TEInput>
+              ></TEInput> */}
 
               {/* <!--Password input--> */}
-              <TEInput
+              {/* <TEInput
                 type="password"
                 // label="Password"
                 placeholder="Password"
                 className="mb-6"
                 size="lg"
-              ></TEInput>
+              ></TEInput> */}
+
+<input
+                    type="text"
+                    name="Email"
+                    //value={formData.Name}
+                    onChange={(e) => setEmail(e.target.value) }
+                    placeholder="Email"
+                    className="border border-gray-300 rounded-md px-3 py-2 w-full mb-4"
+                />
+                 <input
+                    type="password"
+                    name="Password"
+                    //value={formData.Name}
+                    onChange={(e) => setPassword(e.target.value) }
+                    placeholder="Password"
+                    className="border border-gray-300 rounded-md px-3 py-2 w-full mb-4"
+                />
 
               <div className="mb-6 flex items-center justify-between">
                 {/* <!-- Remember me checkbox --> */}
@@ -133,7 +169,7 @@ export default function Login() {
 
               {/* <!-- Login button --> */}
               <div className="text-center lg:text-left">
-                <TERipple rippleColor="light">
+                {/* <TERipple rippleColor="light">
                   <button
                     type="button"
                     onMouseDown={() =>  handleRegister() }
@@ -141,7 +177,10 @@ export default function Login() {
                   >
                     Login
                   </button>
-                </TERipple>
+                </TERipple> */}
+                 <button style={{width:"100%"}} type="submit" onClick={(e) =>  handleRegister(e)} className="custom-btn mt-2">
+                    Sign Up
+                </button>
 
                 {/* <!-- Register link --> */}
                 <p className="mb-0 mt-2 pt-1 text-sm font-semibold">

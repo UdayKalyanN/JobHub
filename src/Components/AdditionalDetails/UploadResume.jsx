@@ -15,14 +15,34 @@ const UploadResume = () => {
         const file = e.target.files[0];
         setResume(file);
     };
-
-    const handleSubmit = (e) => {
+    const [file,setfile]=useState([])
+    const FileUpload = (e) => {
+        console.log(e.target.files);
+        setfile([...file, ...e.target.files]);
+      };
+    const handleSubmit = async(e) => {
         e.preventDefault();
         //window.location.href = `http://localhost:5173/additionalDetails/${objectString}`;
         
 
         // </AdditionalDetails>
-
+console.log(file.length)
+        if (file.length !== 0) {
+            fd.append("email", "sample@gmail.com");
+            for (let i = 0; i < file.length; i++) {
+              fd.append("files", file[i]);
+              console.log(file[i]);
+            }
+    
+            const data = await fetch(`http://127.0.0.1:8000/upload`, {
+              method: "POST",
+              body: fd,
+            });
+            
+            const res = await data.text();
+            const data1 = JSON.parse(res);
+    console.log(data1)
+          }
         if (resume) {
             // You can handle the file upload logic here
             console.log('Uploading resume:', resume);
@@ -30,7 +50,7 @@ const UploadResume = () => {
             // Handle case where no file is selected
             console.log('No file selected');
         }
-        return <AdditionalDetails item={details} />
+       // return <AdditionalDetails item={details} />
     };
 
     return (
@@ -40,7 +60,8 @@ const UploadResume = () => {
                 <input
                     type="file"
                     accept=".pdf,.doc,.docx"
-                    onChange={handleFileChange}
+                    onChange={(e) => FileUpload(e)}
+                    
                     className="border border-gray-300 rounded-md px-3 py-2 w-full mb-4"
                 />
                 {/* <button type="submit" className="custom-btn mt-2">

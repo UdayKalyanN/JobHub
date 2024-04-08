@@ -1,10 +1,12 @@
-import React from "react";
+import React, { useState } from "react";
 import { TEInput, TERipple } from "tw-elements-react";
 import './Login.css'
 
 export default function Login() {
+  const [abc,setabc]=useState(false)
   function handleRegister(){
-    window.location.href = '/'
+    window.location.href = '/home'
+    setabc(true)
   }
   return (
     <section className="h-screen">
@@ -145,7 +147,7 @@ export default function Login() {
                 <p className="mb-0 mt-2 pt-1 text-sm font-semibold">
                   Don't have an account?{" "}
                   <a
-                    href="#!"
+                    href="/registerPage"
                     className="text-danger transition duration-150 ease-in-out hover:text-danger-600 focus:text-danger-600 active:text-danger-700"
                   >
                     Register

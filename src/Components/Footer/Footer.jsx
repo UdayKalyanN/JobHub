@@ -1,10 +1,19 @@
 import React from 'react';
 import CareerHub from '../../assets/All Images/CareerHub.png'
+import ContactForm from '../ContactUs/ContactForm';
 
 const Footer = () => {
     return (
         <div>
+            <div className="mt-12 bg-gray-100 p-4 rounded-md">
+                    <p className="font-medium text-gray-900 text-center">Contact Us</p>
+                    <ContactForm />
+                </div>
             <footer aria-label="Site Footer" className=" bg-slate-200 font-medium rounded-t-3xl">
+            {/* <div className="mt-12">
+                    <p className="font-medium text-gray-900 text-center">Contact Us</p>
+                    <ContactForm />
+                </div> */}
                 <div
                     className="max-w-screen-xl px-4 py-8 mx-auto space-y-8 sm:px-6 lg:space-y-16 lg:p-12 ">
                     <div className="grid grid-cols-1 gap-8 lg:grid-cols-3 ">
@@ -238,6 +247,7 @@ const Footer = () => {
                 </div>
             </footer>
 
+        
         </div>
     );
 };

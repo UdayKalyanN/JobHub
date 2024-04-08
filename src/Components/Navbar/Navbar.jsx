@@ -28,11 +28,11 @@ const Navbar = () => {
                                     Applied Jobs
                                 </Link>
                             </li>
-                            {/* <li>
-                                <Link to="/blog" className='default'>
-                                    Blog
+                            <li>
+                                <Link to="/faq" className='default'>
+                                    Faq's
                                 </Link>
-                            </li> */}
+                            </li>
                         </ul>
                     </div>
                     <Link to="/" className='normal-case text-5xl custom-text font-bold'>Job Hunt</Link>
@@ -54,16 +54,21 @@ const Navbar = () => {
                                 Applied Jobs
                             </Link>
                         </li>
-                        {/* <li>
-                            <Link to="/blog" className={({ isActive }) => (isActive ? 'text-blue-600' : 'default')}>
-                                Blog
+                        <li>
+                            <Link to="/faq" className={({ isActive }) => (isActive ? 'text-blue-600' : 'default')}>
+                                Faq's
                             </Link>
-                        </li> */}
+                        </li>
+                        <li>
+                            <Link to="/" className={({ isActive }) => (isActive ? 'text-blue-600' : 'default')}>
+                                Log Out
+                            </Link>
+                        </li>
                     </ul>
                 </div>
                 <div className="navbar-end">
                     {/* <a className="custom-btn">Start Applying</a> */}
-                    <Link to='/' className='custom-btn'>Start Applying</Link>
+                    <Link to='/allJobs' className='custom-btn'>Start Applying</Link>
                 </div>
             </div>
         </div>

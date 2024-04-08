@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import ReactDOM from "react-dom/client";
 import {
   createBrowserRouter,
@@ -16,33 +16,49 @@ import Register from "./Components/Register/Register";
 import Blog from "./Components/Blog/Blog";
 import App from "./App";
 import JobDetails from "./Components/JobDetails/JobDetails";
+import AdditionalDetails from "./Components/AdditionalDetails/AdditionalDeatils";
+import UploadResume from "./Components/AdditionalDetails/UploadResume";
+
 
 const router = createBrowserRouter([
+  {
+    path:"/",
+    element:<Login/>
+  },
+  {
+    path:"registerPage",
+    element:<Register/>,
+  },
   {
     path: "/",
     element: <App/>,
     errorElement: <ErrorPage />,
     children: [
-      {
-        path: "/",
-        element: <Home />,
-        loader: () => fetch('/category.json'),
-      },
+      // {
+      //   path: "/",
+      //   element: <Login />,
+      //   //loader: () => fetch('/category.json'),
+      // },
       {
         path: "/allJobs",
         element: <JobSection/>,
       },
       {
-        path: "appliedjobs",
+        path: "/additionalDetails/:id",
+        element: <AdditionalDetails/>,
+      },
+      {
+        path: "/uploadResume/:id",
+        element: <UploadResume />,
+      },
+      {
+        path: "/appliedjobs",
         element: <AppliedJobs/>,
       },
       {
-        path:"loginPage",
-        element:<Login/>,
-      },
-      {
-        path:"registerPage",
-        element:<Register/>,
+        path:"/home",
+        element:<Home/>,
+        loader: () => fetch('/category.json'),
       },
       {
         path: "details",
@@ -51,11 +67,11 @@ const router = createBrowserRouter([
       {
         path: "details/:id",
         element: <JobDetails />,
-        loader: () => fetch('/company.json'),
+      loader: () => fetch('/company.json'),
         // loader: ({ params }) => fetch(`company.json/${params.id}`),
       },
       {
-        path: "blog",
+        path: "faq",
         element: <Blog />,
       },
       {
@@ -67,7 +83,7 @@ const router = createBrowserRouter([
         element:<SimplePieChart />,
       },
     ],
-  },
+  }
 ]);
 
 ReactDOM.createRoot(document.getElementById("root")).render(

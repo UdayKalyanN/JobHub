@@ -6,7 +6,7 @@ import { TEInput, TERipple } from "tw-elements-react";
 export default function Register() {
     function handleRegister(){
       console.log("nanda anumolu")
-      window.location.href = '/loginPage'
+      window.location.href = '/'
     }
   return (
     <section className="mt-10">

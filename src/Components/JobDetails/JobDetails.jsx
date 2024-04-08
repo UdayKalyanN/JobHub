@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { CurrencyDollarIcon, CalendarDaysIcon, PhoneIcon, EnvelopeIcon, MapPinIcon } from '@heroicons/react/24/solid'
-import { useParams } from 'react-router-dom';
+import { useParams,Link } from 'react-router-dom';
 import toast, { Toaster } from 'react-hot-toast';
 import useTitle from '../hooks/useTitle';
 
@@ -41,7 +41,7 @@ const JobDetails = () => {
             toast.error('Already applied');
         }
     }
-
+    const objectString = encodeURIComponent(JSON.stringify(details));
     return (
         <div >
             <h1 className='text-5xl text-center bg-gradient-to-r from-indigo-500 to-indigo-800 bg-clip-text text-transparent p-2 mb-8'>{details.company_name} - Job Details</h1>
@@ -98,10 +98,13 @@ const JobDetails = () => {
                             </div>
                         </p>
                     </div>
-                    <button onClick={() => handleApplyBtn(details)}
+                    {/* <button onClick={() => handleApplyBtn(details)}
                         className='custom-btn w-full mt-4'>Apply Now
-                    </button>
-                    <Toaster />
+                    </button> */}
+                    <Link to={`/uploadResume/${objectString}`} className='custom-btn mt-4 w-full '>
+                       Apply Now
+                   </Link>
+                    <Toaster /> 
                 </div>
             </div>
         </div>

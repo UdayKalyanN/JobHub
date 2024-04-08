@@ -30,11 +30,8 @@ const JobSection = () => {
 
     return (
         <div className='text-center my-6'>
-            <h1 className='text-5xl custom-text p-4'>All Jobs </h1>
-            <p className='text-lg my-4'>
-                Explore thousands of job opportunities with all the information
-                you need. Its your future
-            </p>
+            <h1 className='text-5xl custom-text p-4'>All Jobs</h1>
+            <p className='text-lg my-4'>Explore thousands of job opportunities with all the information you need. Its your future</p>
             <div className='mb-4'>
                 <input
                     type='text'
@@ -43,9 +40,7 @@ const JobSection = () => {
                     onChange={handleInputChange}
                     className='border border-gray-300 rounded-md px-3 py-2 w-full max-w-md mx-auto'
                 />
-                <button onMouseDown={handleSearch} className='custom-btn mt-2'>
-                    Search
-                </button>
+                <button onMouseDown={handleSearch}  className='custom-btn mt-2' data-testid="search-button">Search</button>
             </div>
             <div className='grid md:grid-cols-2 gap-4 md:w-3/4 mx-auto'>
                 {/* filtered job cards */}

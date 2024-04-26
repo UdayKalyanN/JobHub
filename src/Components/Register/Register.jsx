@@ -56,7 +56,7 @@ export default function Register() {
     const fd = new FormData();
     fd.append("email", email);
     fd.append("password", password);
-    const urls = `https://jobhub12.netlify.app/functions/main/api/signup`;
+    const urls = `http://127.0.0.1:8000/api/signup`;
     try {
       const postData = await fetch(urls, {
         method: "POST",

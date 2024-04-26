@@ -9,6 +9,7 @@ from fastapi.responses import StreamingResponse, FileResponse
 from io import BytesIO
 from datetime import datetime, timedelta
 from mangum import Mangum
+import os
 
 app = FastAPI()
 
@@ -16,12 +17,30 @@ app = FastAPI()
 # cred = credentials.Certificate("jobhunt-2002d-firebase-adminsdk-au353-75dc61f025.json")
 #firebase_admin.initialize_app(cred)
 
-cred = credentials.Certificate("jobhub-e44c7-firebase-adminsdk-c3swq-626457c1f4.json") #UdayChange
+# cred = credentials.Certificate("jobhub-e44c7-firebase-adminsdk-c3swq-626457c1f4.json") #UdayChange
+
+cred = credentials.Certificate({
+    "type": os.environ["FIREBASE_TYPE"],
+    "project_id": os.environ["FIREBASE_PROJECT_ID"],
+    "private_key_id": os.environ["FIREBASE_PRIVATE_KEY_ID"],
+    "private_key": os.environ["FIREBASE_PRIVATE_KEY"].replace("\\n", "\n"),
+    "client_email": os.environ["FIREBASE_CLIENT_EMAIL"],
+    "client_id": os.environ["FIREBASE_CLIENT_ID"],
+    "auth_uri": os.environ["FIREBASE_AUTH_URI"],
+    "token_uri": os.environ["FIREBASE_TOKEN_URI"],
+    "auth_provider_x509_cert_url": os.environ["FIREBASE_AUTH_PROVIDER_X509_CERT_URL"],
+    "client_x509_cert_url": os.environ["FIREBASE_CLIENT_X509_CERT_URL"]
+})
 
 firebase_admin.initialize_app(cred, {
-    'databaseURL': 'https://jobhub-e44c7-default-rtdb.firebaseio.com/',  #UdayChange
-    'storageBucket': 'jobhub-e44c7.appspot.com'
+    'databaseURL': os.environ["FIREBASE_DATABASE_URL"],
+    'storageBucket': os.environ["FIREBASE_STORAGE_BUCKET"]
 })
+
+# firebase_admin.initialize_app(cred, {
+#     'databaseURL': 'https://jobhub-e44c7-default-rtdb.firebaseio.com/',  #UdayChange
+#     'storageBucket': 'jobhub-e44c7.appspot.com'
+# })
 
 # firebase_admin.initialize_app(cred, {
 #     'databaseURL': 'https://jobhunt-2002d-default-rtdb.firebaseio.com/',

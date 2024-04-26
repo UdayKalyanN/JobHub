@@ -13,7 +13,7 @@ const Review = () => {
       const fetchUserData = async () => {
           try {
               const userEmail = localStorage.getItem('userEmail');
-              const response = await axios.get(`https://jobhub12.netlify.app/functions/main/api/getUserData?email=${userEmail}&job_id=${id}`);
+              const response = await axios.get(`http://localhost:8000/api/getUserData?email=${userEmail}&job_id=${id}`);
               setUserData(response.data);
               console.log(response.data);
           } catch (error) {
@@ -34,7 +34,7 @@ const Review = () => {
       const fetchResume = async () => {
         try {
           const userEmail = localStorage.getItem('userEmail');
-          const response = await axios.get(`https://jobhub12.netlify.app/functions/main/api/getResume?email=${userEmail}&jobId=${id}`);
+          const response = await axios.get(`http://localhost:8000/api/getResume?email=${userEmail}&jobId=${id}`);
           setResume(response.data.resume_url);
         } catch (error) {
           console.error('Error fetching resume:', error);

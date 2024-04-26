@@ -64,7 +64,7 @@ const AdditionalDetails = () => {
       formDataToSend.append('job_id', item.id);
 
       try {
-        const response = await axios.post('https://jobhub-connect1.netlify.app/.netlify/functions/main/api/insertData', formDataToSend);
+        const response = await axios.post('https://jobhub12.netlify.app/functions/main/api/insertData', formDataToSend);
         console.log(response.data);
         if (response.data.success) {
           let newJob = {};

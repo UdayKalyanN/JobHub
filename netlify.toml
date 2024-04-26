@@ -7,6 +7,6 @@
   PYTHON_VERSION = "3.8"  # Specify the Python version you are using
 
 [[redirects]]
-  from = "/*"
+  from = "/api/*"
   to = "/.netlify/functions/main"
   status = 200

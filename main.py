@@ -39,7 +39,7 @@ class User(BaseModel):
     email: str
     password: str
 
-@app.post("/signup")
+@app.post("/api/signup")
 async def signup(email: str = Form(...),password: str = Form(...)):
     print(email,password)
     try:
@@ -53,7 +53,7 @@ async def signup(email: str = Form(...),password: str = Form(...)):
     except Exception as e:
         raise HTTPException(status_code=400, detail=str(e))
 
-@app.post("/signin")
+@app.post("/api/signin")
 async def signin(email: str = Form(...),password: str = Form(...)):
     try:
         user_info = auth.get_user_by_email(email)
@@ -68,7 +68,7 @@ async def signin(email: str = Form(...),password: str = Form(...)):
         print(str(e))
         raise HTTPException(status_code=401, detail=str(e))
     
-@app.post("/insertData")
+@app.post("/api/insertData")
 async def insertData(
     name: str = Form(...),
     email: str = Form(...),
@@ -150,7 +150,7 @@ async def insertData(
         raise HTTPException(status_code=500, detail=f"Error inserting data: {str(e)}")
 
 
-@app.post("/upload")
+@app.post("/api/upload")
 async def upload_pdf(email: str = Form(...), file: UploadFile = File(...)):
     try:
         if not email:

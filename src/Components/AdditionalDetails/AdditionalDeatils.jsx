@@ -64,7 +64,7 @@ const AdditionalDetails = () => {
       formDataToSend.append('job_id', item.id);
 
       try {
-        const response = await axios.post('http://localhost:8000/insertData', formDataToSend);
+        const response = await axios.post('http://localhost:8000/api/insertData', formDataToSend);
         console.log(response.data);
         if (response.data.success) {
           let newJob = {};

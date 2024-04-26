@@ -57,7 +57,7 @@ export default function Login() {
       const fd = new FormData();
       fd.append("email", email);
       fd.append("password", password);
-      const urls = `http://127.0.0.1:8000/signin`;
+      const urls = `http://127.0.0.1:8000/api/signin`;
       try {
         const postData = await fetch(urls, {
           method: "POST",

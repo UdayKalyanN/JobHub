@@ -1,0 +1,7 @@
+fastapi
+uvicorn
+python-multipart
+aiofiles
+pydantic
+firebase-admin
+google-cloud-storage

@@ -1,16 +1,15 @@
+import { CalendarDaysIcon, CurrencyDollarIcon, EnvelopeIcon, MapPinIcon, PhoneIcon } from '@heroicons/react/24/solid';
 import React, { useEffect, useState } from 'react';
-import { CurrencyDollarIcon, CalendarDaysIcon, PhoneIcon, EnvelopeIcon, MapPinIcon } from '@heroicons/react/24/solid'
-import { useParams,Link } from 'react-router-dom';
-import toast, { Toaster } from 'react-hot-toast';
+import { Toaster } from 'react-hot-toast';
+import { Link, useParams } from 'react-router-dom';
 import useTitle from '../hooks/useTitle';
 
 const JobDetails = () => {
     const id = useParams();
     useTitle("Job Details")
 
-    // const notify = () => toast.success('Successfully Applied!');
-
     const [details, setDetails] = useState({});
+    const [isApplied, setIsApplied] = useState(false);
 
     useEffect(() => {
         fetch('/company.json')
@@ -21,29 +20,17 @@ const JobDetails = () => {
             })
     }, [])
 
+    useEffect(() => {
+        const userEmail = localStorage.getItem('userEmail');
+        const appliedJobs = JSON.parse(localStorage.getItem(`jobs_${userEmail}`)) || [];
+        const isJobApplied = appliedJobs.some((job) => job.id === details.id);
+        setIsApplied(isJobApplied);
+    }, [details.id]);
 
-    const handleApplyBtn = (item) => {
-        let newJob = {};
-        let prevJob = JSON.parse(localStorage.getItem('jobs'));
-
-        let searchedJob = prevJob?.find((data) => data.id == item.id);
-        if (!searchedJob) {
-            if (!prevJob) {
-                newJob = [item];
-                localStorage.setItem("jobs", JSON.stringify(newJob));
-                toast.success('Successfully applied');
-            } else {
-                newJob = [...prevJob, item];
-                localStorage.setItem("jobs", JSON.stringify(newJob));
-                toast.success('Successfully applied');
-            }
-        } else {
-            toast.error('Already applied');
-        }
-    }
     const objectString = encodeURIComponent(JSON.stringify(details));
+
     return (
-        <div >
+        <div>
             <h1 className='text-5xl text-center bg-gradient-to-r from-indigo-500 to-indigo-800 bg-clip-text text-transparent p-2 mb-8'>{details.company_name} - Job Details</h1>
             <div className='md:flex px-16 gap-6'>
                 <div className="left w-11/12 text-lg">
@@ -98,13 +85,16 @@ const JobDetails = () => {
                             </div>
                         </p>
                     </div>
-                    {/* <button onClick={() => handleApplyBtn(details)}
-                        className='custom-btn w-full mt-4'>Apply Now
-                    </button> */}
-                    <Link to={`/uploadResume/${objectString}`} className='custom-btn mt-4 w-full '>
-                       Apply Now
-                   </Link>
-                    <Toaster /> 
+                    {isApplied ? (
+                        <button className='custom-btn mt-4 w-full' disabled>
+                            <span className='text-white'>Already Applied</span>
+                        </button>
+                    ) : (
+                        <Link to={`/uploadResume/${objectString}`} className='custom-btn mt-4 w-full'>
+                            Apply Now
+                        </Link>
+                    )}
+                    <Toaster />
                 </div>
             </div>
         </div>

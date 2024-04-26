@@ -17,10 +17,20 @@ const JobSection = () => {
     }, []);
 
     const handleSearch = () => {
-        const filtered = jobs.filter((job) =>
-            job.company_name.toLowerCase().includes(searchTerm.toLowerCase())
-        );
-        console.log(filtered)
+        const filtered = jobs.filter((job) => {
+            // Convert salary string to numbers
+            const salaryRange = job.salary.split('-').map(s => parseInt(s.replace(/\D/g, ''), 10));
+    
+            // Check if the entered salary falls within the salary range
+            const enteredSalary = parseInt(searchTerm.replace(/\D/g, ''), 10);
+            return (
+                job.company_name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+                job.job_title.toLowerCase().includes(searchTerm.toLowerCase()) ||
+                job.location.toLowerCase().includes(searchTerm.toLowerCase()) ||
+                (salaryRange.length === 2 && enteredSalary >= salaryRange[0] && enteredSalary <= salaryRange[1])
+            );
+        });
+        console.log(filtered);
         setFilteredJobs(filtered);
     };
 

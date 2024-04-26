@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import toast, { Toaster } from 'react-hot-toast';
 import { TEInput, TERipple } from "tw-elements-react";
 // import './Register.css'
 
@@ -6,26 +7,80 @@ import { TEInput, TERipple } from "tw-elements-react";
 export default function Register() {
   const [email,setEmail]=useState()
   const [password,setPassword]=useState()
-   async function handleRegister(e){
-      e.preventDefault()
-      console.log("nanda anumolu")
-      console.log(email,password)
-      const fd = new FormData();
+  const [confirmPassword, setConfirmPassword] = useState("");
+  const [firstName, setFirstName] = useState("");
+  const [lastName, setLastName] = useState("");
+  const [formErrors, setFormErrors] = useState({});
+  async function handleRegister(e) {
+  e.preventDefault();
+  console.log(email, password);
+
+  // Add validation
+  // if (!email || !password) {
+  //   toast.error("Please enter all fields");
+  //   return;
+  // }
+  const errors = {};
+  if (!email) {
+    errors.email = "Email is required";
+  } else if (!/\S+@\S+\.\S+/.test(email)) {
+    errors.email = "Invalid email format";
+  }
+
+  // Password validation
+  if (!password) {
+    errors.password = "Password is required";
+  } else if (password.length < 6) {
+    errors.password = "Password must be at least 6 characters long";
+  }
+
+  // Confirm password validation
+  if (!confirmPassword) {
+    errors.confirmPassword = "Confirm password is required";
+  } else if (confirmPassword !== password) {
+    errors.confirmPassword = "Passwords do not match";
+  }
+
+  // First name validation
+  if (!firstName) {
+    errors.firstName = "First name is required";
+  }
+
+  // Last name validation
+  if (!lastName) {
+    errors.lastName = "Last name is required";
+  }
+
+  if (Object.keys(errors).length === 0) {
+    // If no errors, proceed with form submission
+    const fd = new FormData();
     fd.append("email", email);
-    fd.append("password",password);
+    fd.append("password", password);
     const urls = `http://127.0.0.1:8000/signup`;
-    const postData = await fetch(urls, {
-      method: "POST",
-      body: fd,
-    });
-    const res = await postData.text();
-    const data1 = JSON.parse(res);
-    console.log(data1)
-    if(data1.message==="User created successfully"){
-      window.location.href = '/'
+    try {
+      const postData = await fetch(urls, {
+        method: "POST",
+        body: fd,
+      });
+      const res = await postData.text();
+      const data1 = JSON.parse(res);
+      console.log(data1);
+      if (data1.message === "User created successfully") {
+        toast.success("User created successfully");
+        localStorage.setItem("userEmail", email);
+        window.location.href = "/";
+      } else {
+        toast.error("User with this email already exists");
+      }
+    } catch (error) {
+      console.error("Error during registration:", error);
+      alert("An error occurred during registration. Please try again later.");
     }
-      
-    }
+  } else {
+    setFormErrors(errors);
+    toast.error("Please enter all fields");
+  }
+}
   return (
     <section className="mt-10">
       <div className="container h-full px-6 py-24">
@@ -40,33 +95,46 @@ export default function Register() {
           </div>
           {/* <!-- Right column container with form --> */}
           <div className="md:w-8/12 lg:ml-6 lg:w-5/12 kishore">
+          <div className="text-center">
+              <h1 className="text-4xl font-bold text-blue-600 mb-4">Welcome to JobHub</h1>
+              <p className="text-lg font-bold text-gray-800 mb-8">Create your free account to access thousands of job opportunities</p>
+            </div>
+
             <form>
               {/* <!-- Email input --> */}
               <TEInput
                 type="First Name"
-                // label="Email address"
+                // label="First Name"
                 size="lg"
-                className="mb-6"
+                className="border border-gray-300 rounded-md px-3 py-2 w-full mb-4"
                 placeholder="First Name"
+                value={firstName}
+                onChange={(e) => setFirstName(e.target.value)}
                 //className="relative float-left -ml-[1.5rem] mr-[6px] mt-[0.15rem] h-[1.125rem] w-[1.125rem] appearance-none rounded-[0.25rem] border-[0.125rem] border-solid border-neutral-300 outline-none before:pointer-events-none before:absolute before:h-[0.875rem] before:w-[0.875rem] before:scale-0 before:rounded-full before:bg-transparent before:opacity-0 before:shadow-[0px_0px_0px_13px_transparent] before:content-[''] checked:border-primary checked:bg-primary checked:before:opacity-[0.16] checked:after:absolute checked:after:-mt-px checked:after:ml-[0.25rem] checked:after:block checked:after:h-[0.8125rem] checked:after:w-[0.375rem] checked:after:rotate-45 checked:after:border-[0.125rem] checked:after:border-l-0 checked:after:border-t-0 checked:after:border-solid checked:after:border-white checked:after:bg-transparent checked:after:content-[''] hover:cursor-pointer hover:before:opacity-[0.04] hover:before:shadow-[0px_0px_0px_13px_rgba(0,0,0,0.6)] focus:shadow-none focus:transition-[border-color_0.2s] focus:before:scale-100 focus:before:opacity-[0.12] focus:before:shadow-[0px_0px_0px_13px_rgba(0,0,0,0.6)] focus:before:transition-[box-shadow_0.2s,transform_0.2s] focus:after:absolute focus:after:z-[1] focus:after:block focus:after:h-[0.875rem] focus:after:w-[0.875rem] focus:after:rounded-[0.125rem] focus:after:content-[''] checked:focus:before:scale-100 checked:focus:before:shadow-[0px_0px_0px_13px_#3b71ca] checked:focus:before:transition-[box-shadow_0.2s,transform_0.2s] checked:focus:after:-mt-px checked:focus:after:ml-[0.25rem] checked:focus:after:h-[0.8125rem] checked:focus:after:w-[0.375rem] checked:focus:after:rotate-45 checked:focus:after:rounded-none checked:focus:after:border-[0.125rem] checked:focus:after:border-l-0 checked:focus:after:border-t-0 checked:focus:after:border-solid checked:focus:after:border-white checked:focus:after:bg-transparent dark:border-neutral-600 dark:checked:border-primary dark:checked:bg-primary dark:focus:before:shadow-[0px_0px_0px_13px_rgba(255,255,255,0.4)] dark:checked:focus:before:shadow-[0px_0px_0px_13px_#3b71ca]"
               ></TEInput>
-
+              {formErrors.firstName && <div className="text-red-500">{formErrors.firstName}</div>}
               <TEInput
                 type="Last Name"
                 // label="Email address"
                 size="lg"
-                className="mb-6"
+                className="border border-gray-300 rounded-md px-3 py-2 w-full mb-4"
                 placeholder="Last Name"
+                value={lastName}
+                 onChange={(e) => setLastName(e.target.value)}
                 //className="relative float-left -ml-[1.5rem] mr-[6px] mt-[0.15rem] h-[1.125rem] w-[1.125rem] appearance-none rounded-[0.25rem] border-[0.125rem] border-solid border-neutral-300 outline-none before:pointer-events-none before:absolute before:h-[0.875rem] before:w-[0.875rem] before:scale-0 before:rounded-full before:bg-transparent before:opacity-0 before:shadow-[0px_0px_0px_13px_transparent] before:content-[''] checked:border-primary checked:bg-primary checked:before:opacity-[0.16] checked:after:absolute checked:after:-mt-px checked:after:ml-[0.25rem] checked:after:block checked:after:h-[0.8125rem] checked:after:w-[0.375rem] checked:after:rotate-45 checked:after:border-[0.125rem] checked:after:border-l-0 checked:after:border-t-0 checked:after:border-solid checked:after:border-white checked:after:bg-transparent checked:after:content-[''] hover:cursor-pointer hover:before:opacity-[0.04] hover:before:shadow-[0px_0px_0px_13px_rgba(0,0,0,0.6)] focus:shadow-none focus:transition-[border-color_0.2s] focus:before:scale-100 focus:before:opacity-[0.12] focus:before:shadow-[0px_0px_0px_13px_rgba(0,0,0,0.6)] focus:before:transition-[box-shadow_0.2s,transform_0.2s] focus:after:absolute focus:after:z-[1] focus:after:block focus:after:h-[0.875rem] focus:after:w-[0.875rem] focus:after:rounded-[0.125rem] focus:after:content-[''] checked:focus:before:scale-100 checked:focus:before:shadow-[0px_0px_0px_13px_#3b71ca] checked:focus:before:transition-[box-shadow_0.2s,transform_0.2s] checked:focus:after:-mt-px checked:focus:after:ml-[0.25rem] checked:focus:after:h-[0.8125rem] checked:focus:after:w-[0.375rem] checked:focus:after:rotate-45 checked:focus:after:rounded-none checked:focus:after:border-[0.125rem] checked:focus:after:border-l-0 checked:focus:after:border-t-0 checked:focus:after:border-solid checked:focus:after:border-white checked:focus:after:bg-transparent dark:border-neutral-600 dark:checked:border-primary dark:checked:bg-primary dark:focus:before:shadow-[0px_0px_0px_13px_rgba(255,255,255,0.4)] dark:checked:focus:before:shadow-[0px_0px_0px_13px_#3b71ca]"
               ></TEInput>
+              {formErrors.lastName && <div className="text-red-500">{formErrors.lastName}</div>}
               <input
                     type="text"
                     name="Email"
                     //value={formData.Name}
-                    onChange={(e) => setEmail(e.target.value) }
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                   // error={formErrors.email}
                     placeholder="Email"
                     className="border border-gray-300 rounded-md px-3 py-2 w-full mb-4"
                 />
+                {formErrors.email && <div className="text-red-500">{formErrors.email}</div>}
                  <input
                     type="password"
                     name="Password"
@@ -75,6 +143,7 @@ export default function Register() {
                     placeholder="Password"
                     className="border border-gray-300 rounded-md px-3 py-2 w-full mb-4"
                 />
+                {formErrors.password && <div className="text-red-500">{formErrors.password}</div>}
               {/* <TEInput
                 type="email"
                 // label="Email address"
@@ -99,11 +168,14 @@ export default function Register() {
 <TEInput
                 type="password"
                 // label="Password"
-                className="mb-6"
+                className="border border-gray-300 rounded-md px-3 py-2 w-full mb-4"
                 //className="relative float-left -ml-[1.5rem] mr-[6px] mt-[0.15rem] h-[1.125rem] w-[1.125rem] appearance-none rounded-[0.25rem] border-[0.125rem] border-solid border-neutral-300 outline-none before:pointer-events-none before:absolute before:h-[0.875rem] before:w-[0.875rem] before:scale-0 before:rounded-full before:bg-transparent before:opacity-0 before:shadow-[0px_0px_0px_13px_transparent] before:content-[''] checked:border-primary checked:bg-primary checked:before:opacity-[0.16] checked:after:absolute checked:after:-mt-px checked:after:ml-[0.25rem] checked:after:block checked:after:h-[0.8125rem] checked:after:w-[0.375rem] checked:after:rotate-45 checked:after:border-[0.125rem] checked:after:border-l-0 checked:after:border-t-0 checked:after:border-solid checked:after:border-white checked:after:bg-transparent checked:after:content-[''] hover:cursor-pointer hover:before:opacity-[0.04] hover:before:shadow-[0px_0px_0px_13px_rgba(0,0,0,0.6)] focus:shadow-none focus:transition-[border-color_0.2s] focus:before:scale-100 focus:before:opacity-[0.12] focus:before:shadow-[0px_0px_0px_13px_rgba(0,0,0,0.6)] focus:before:transition-[box-shadow_0.2s,transform_0.2s] focus:after:absolute focus:after:z-[1] focus:after:block focus:after:h-[0.875rem] focus:after:w-[0.875rem] focus:after:rounded-[0.125rem] focus:after:content-[''] checked:focus:before:scale-100 checked:focus:before:shadow-[0px_0px_0px_13px_#3b71ca] checked:focus:before:transition-[box-shadow_0.2s,transform_0.2s] checked:focus:after:-mt-px checked:focus:after:ml-[0.25rem] checked:focus:after:h-[0.8125rem] checked:focus:after:w-[0.375rem] checked:focus:after:rotate-45 checked:focus:after:rounded-none checked:focus:after:border-[0.125rem] checked:focus:after:border-l-0 checked:focus:after:border-t-0 checked:focus:after:border-solid checked:focus:after:border-white checked:focus:after:bg-transparent dark:border-neutral-600 dark:checked:border-primary dark:checked:bg-primary dark:focus:before:shadow-[0px_0px_0px_13px_rgba(255,255,255,0.4)] dark:checked:focus:before:shadow-[0px_0px_0px_13px_#3b71ca]"
                 size="lg"
                 placeholder="Confirm Password"
+                value={confirmPassword}
+                onChange={(e) => setConfirmPassword(e.target.value)}
               ></TEInput>
+              {formErrors.confirmPassword && <div className="text-red-500">{formErrors.confirmPassword}</div>}
 
               {/* <!-- Remember me checkbox --> */}
               <div className="mb-6 flex items-center justify-between">
@@ -130,6 +202,17 @@ export default function Register() {
                 >
                   Terms and conditions
                 </a>
+              </div>
+              <div>
+              <p className="mb-0 mt-2 pt-1 text-sm font-semibold">
+                  Already Account Created?{" "}
+                  <a
+                    href="/"
+                    className="text-danger transition duration-150 ease-in-out hover:text-danger-600 focus:text-danger-600 active:text-danger-700"
+                  >
+                    Login
+                  </a>
+                </p>
               </div>
 
               {/* <!-- Submit button --> */}
@@ -201,9 +284,9 @@ export default function Register() {
               </TERipple>
             </form>
           </div>
-  
         </div>
       </div>
+      <Toaster/>
     </section>
   );
-}
+} 

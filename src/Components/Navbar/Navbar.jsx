@@ -1,9 +1,13 @@
 import React from 'react';
-import CareerHub from '../../assets/All Images/CareerHub.png'
-import './Navbar.css'
 import { Link } from 'react-router-dom';
+import './Navbar.css';
 
 const Navbar = () => {
+    const handleLogout = () => {
+        // Set loggedIn to false in local storage
+        localStorage.setItem('isLoggedIn', 'false');
+    };
+
     return (
         <div className='m-4'>
             <div className="navbar bg-base-100 p-5 ">
@@ -14,7 +18,7 @@ const Navbar = () => {
                         </label>
                         <ul tabIndex={0} className="menu menu-compact dropdown-content mt-3 p-2 shadow bg-base-100 rounded-box w-52 ">
                             <li>
-                                <Link to="/" className='default '>
+                                <Link to="/home" className='default '>
                                     Home
                                 </Link>
                             </li>
@@ -29,18 +33,23 @@ const Navbar = () => {
                                 </Link>
                             </li>
                             <li>
+                                <Link to="/stat" className='default'>
+                                    Stats
+                                </Link>
+                            </li>
+                            <li>
                                 <Link to="/faq" className='default'>
-                                    Faq's
+                                    FAQ's
                                 </Link>
                             </li>
                         </ul>
                     </div>
-                    <Link to="/" className='normal-case text-5xl custom-text font-bold'>Job Hunt</Link>
+                    <Link to="/home" className='normal-case text-5xl custom-text font-bold'>Job Hunt</Link>
                 </div>
                 <div className="navbar-center hidden lg:flex">
                     <ul className="menu menu-horizontal px-1 tracking-wider font-medium">
                         <li>
-                            <Link to="/" className={({ isActive }) => (isActive ? 'text-blue-600' : 'default')}>
+                            <Link to="/home" className={({ isActive }) => (isActive ? 'text-blue-600' : 'default')}>
                                 Home
                             </Link>
                         </li>
@@ -56,11 +65,16 @@ const Navbar = () => {
                         </li>
                         <li>
                             <Link to="/faq" className={({ isActive }) => (isActive ? 'text-blue-600' : 'default')}>
-                                Faq's
+                                FAQ's
                             </Link>
                         </li>
                         <li>
-                            <Link to="/" className={({ isActive }) => (isActive ? 'text-blue-600' : 'default')}>
+                                <Link to="/stat" className='default'>
+                                    Stats
+                                </Link>
+                        </li>
+                        <li>
+                            <Link to="/" onClick={handleLogout} className={({ isActive }) => (isActive ? 'text-blue-600' : 'default')}>
                                 Log Out
                             </Link>
                         </li>
@@ -76,3 +90,4 @@ const Navbar = () => {
 };
 
 export default Navbar;
+ 

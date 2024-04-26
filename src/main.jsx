@@ -1,51 +1,43 @@
-import React, { useState } from "react";
+import React from "react";
 import ReactDOM from "react-dom/client";
-import {
-  createBrowserRouter,
-  RouterProvider,
-} from "react-router-dom";
-import "./index.css";
-import Home from "./Components/Home/Home";
-import ErrorPage from "./Components/ErrorPage/ErrorPage";
-import Statistic from "./Components/Statistic/Statistic";
-import SimplePieChart from "./Components/Statistic/pie";
-import AppliedJobs from "./Components/AppliedJobs/AppliedJobs";
-import Login from "./Components/Register/Login";
-import JobSection from "./Components/JobSection/JobSection2";
-import Register from "./Components/Register/Register";
-import Blog from "./Components/Blog/Blog";
+import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import App from "./App";
-import JobDetails from "./Components/JobDetails/JobDetails";
 import AdditionalDetails from "./Components/AdditionalDetails/AdditionalDeatils";
 import UploadResume from "./Components/AdditionalDetails/UploadResume";
-
+import AppliedJobs from "./Components/AppliedJobs/AppliedJobs";
+import Blog from "./Components/Blog/Blog";
+import ErrorPage from "./Components/ErrorPage/ErrorPage";
+import Home from "./Components/Home/Home";
+import JobDetails from "./Components/JobDetails/JobDetails";
+import JobSection from "./Components/JobSection/JobSection2";
+import Login from "./Components/Register/Login";
+import Register from "./Components/Register/Register";
+import Review from "./Components/Review/Review";
+import SimplePieChart from "./Components/Statistic/pie";
+import Statistic from "./Components/Statistic/Statistic";
+import "./index.css";
 
 const router = createBrowserRouter([
   {
-    path:"/",
-    element:<Login/>
+    path: "/",
+    element: <Login />,
   },
   {
-    path:"registerPage",
-    element:<Register/>,
+    path: "registerPage",
+    element: <Register />,
   },
   {
     path: "/",
-    element: <App/>,
+    element: <App />,
     errorElement: <ErrorPage />,
     children: [
-      // {
-      //   path: "/",
-      //   element: <Login />,
-      //   //loader: () => fetch('/category.json'),
-      // },
       {
         path: "/allJobs",
-        element: <JobSection/>,
+        element: <JobSection />,
       },
       {
         path: "/additionalDetails/:id",
-        element: <AdditionalDetails/>,
+        element: <AdditionalDetails />,
       },
       {
         path: "/uploadResume/:id",
@@ -53,22 +45,21 @@ const router = createBrowserRouter([
       },
       {
         path: "/appliedjobs",
-        element: <AppliedJobs/>,
+        element: <AppliedJobs />,
       },
       {
-        path:"/home",
-        element:<Home/>,
+        path: "/home",
+        element: <Home />,
         loader: () => fetch('/category.json'),
       },
       {
         path: "details",
-        element: <JobDetails/>,
+        element: <JobDetails />,
       },
       {
         path: "details/:id",
         element: <JobDetails />,
-      loader: () => fetch('/company.json'),
-        // loader: ({ params }) => fetch(`company.json/${params.id}`),
+        loader: () => fetch('/company.json'),
       },
       {
         path: "faq",
@@ -80,10 +71,14 @@ const router = createBrowserRouter([
       },
       {
         path: "pie",
-        element:<SimplePieChart />,
+        element: <SimplePieChart />,
+      },
+      {
+        path: "review/:id",
+        element: <Review />,
       },
     ],
-  }
+  },
 ]);
 
 ReactDOM.createRoot(document.getElementById("root")).render(

@@ -15,6 +15,7 @@ dist-ssr
 # Dependencies
 node_modules/
 
+*.config.*
 # Configuration files
 jest.config.js
 postcss.config.js

@@ -34,7 +34,7 @@ const UploadResume = () => {
         formData.append('file', file);
 
         try {
-            const response = await fetch('http://127.0.0.1:8000/api/upload', {
+            const response = await fetch('https://jobhub-connect1.netlify.app/.netlify/functions/main/api/upload', {
                 method: 'POST',
                 body: formData,
             });

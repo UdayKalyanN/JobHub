@@ -5,3 +5,4 @@ aiofiles
 pydantic
 firebase-admin
 google-cloud-storage
+mangum

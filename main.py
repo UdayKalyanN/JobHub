@@ -8,6 +8,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import StreamingResponse, FileResponse
 from io import BytesIO
 from datetime import datetime, timedelta
+from mangum import Mangum
 
 app = FastAPI()
 
@@ -206,6 +207,8 @@ async def get_resume(email: str):
 
 def handler(event, context):
     return app(event, context)
+
+handler = Mangum(app)
 
 
 # if __name__ == "__main__":

@@ -4,15 +4,13 @@ import toast, { Toaster } from 'react-hot-toast';
 import './Login.css';
 
 export default function Login() {
-  const [abc, setabc] = useState(false)
-  const [email, setEmail] = useState('')
-  const [password, setPassword] = useState('')
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
   const [formErrors, setFormErrors] = useState({});
   const [rememberMe, setRememberMe] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
 
   useEffect(() => {
-    // Check if user email and password are stored in localStorage
     const storedEmail = localStorage.getItem('rememberedEmail');
     const storedPassword = localStorage.getItem('rememberedPassword');
 
@@ -37,7 +35,7 @@ export default function Login() {
     }
   }, [rememberMe, email, password]);
 
-  async function handleRegister(e) {
+  async function handleLogin(e) {
     e.preventDefault();
     const errors = {};
     if (!email) {
@@ -46,18 +44,18 @@ export default function Login() {
       errors.email = "Invalid email format";
     }
 
-    // Password validation
     if (!password) {
       errors.password = "Password is required";
     } else if (password.length < 6) {
       errors.password = "Password must be at least 6 characters long";
     }
+
     if (Object.keys(errors).length === 0) {
-      console.log(email, password);
       const fd = new FormData();
       fd.append("email", email);
       fd.append("password", password);
-      const urls = `http://127.0.0.1:8000/api/signin`;
+      const urls = `https://jobhub-connect1.netlify.app/.netlify/functions/main/api/signin`;
+
       try {
         const postData = await fetch(urls, {
           method: "POST",

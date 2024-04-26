@@ -7,10 +7,20 @@ yarn-error.log*
 pnpm-debug.log*
 lerna-debug.log*
 
-node_modules
+# Compiled output
 dist
 dist-ssr
 *.local
+
+# Dependencies
+node_modules/
+
+# Configuration files
+jest.config.js
+postcss.config.js
+tailwind.config.js
+vite.config.js
+vitest.config.js
 
 # Editor directories and files
 .vscode/*
